@@ -148,10 +148,10 @@ def main():
 
 					global df
 					if i==1:
-						df.to_csv('malicious_dataset.csv', index=None, header=True)
+						df.to_csv('attack_dataset.csv', index=None, header=True)
 						i+=1
 					else:
-						df.to_csv('malicious_dataset.csv', mode='a', index=None, header=False)
+						df.to_csv('attack_dataset.csv', mode='a', index=None, header=False)
 						i+=1
 					# clear dataframe
 					df = df.iloc[0:0]
