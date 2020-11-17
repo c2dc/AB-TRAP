@@ -14,6 +14,12 @@ $ cd "1. Local Area Network"
 $ vagrant up
 ```
 
+After that the pcap file ```router0_output.pcap``` will be generated in the current folder, to generate the ```data/attack_dataset.csv```, run the following:
+
+```
+$ python generate_attack_dataset.py
+```
+
 ## Testbed architecture
 ![Testbed architecture](images/testbed.png)
 

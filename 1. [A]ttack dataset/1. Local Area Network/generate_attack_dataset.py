@@ -79,7 +79,7 @@ def main():
 	
 	print(df.head())
 	print(df.shape)
-	df.to_csv('./data/malicious_dataset.csv', index=None, header=True)
+	df.to_csv('./data/attacker_dataset.csv', index=None, header=True)
 
 
 if __name__ == "__main__":
