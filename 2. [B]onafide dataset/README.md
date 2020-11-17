@@ -1,4 +1,4 @@
-To obtain the **Bonafide Dataset** please perform the following steps:
+To obtain the **Bonafide Dataset** please perform the following steps (using Python and Shellscript):
 
 
 # Obtain MAWILab traffic
@@ -35,4 +35,22 @@ The next step is to process all split pcap files according to ```filter_rule.txt
 $ ./2_filter_pcap.sh
 ```
 
+# Random sampling
 
+From the filtered splits on the previous step, this step will perform a random sampling of the amount of packets hardcoded in the script in the variable ```smaller_numbers```, and merge all sampled packet as a pcap file in the folder ```data/bonafide.pcap```.
+
+```
+$ ./3_random_pcap.sh
+```
+
+# Generate **Bonafide** dataset
+
+Finally, to generate the **bonafide** dataset as a csv file, perform the following:
+
+```
+$ python 4_generate_bonafide_dataset.py
+```
+
+It will save the file at: ```data/bonafide_dataset.csv```
+
+__In this step the Python requires Pandas and PyShark packages.__
