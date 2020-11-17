@@ -1,0 +1,146 @@
+# _*_ mode: ruby _*_
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # a server2 machine (target subnet)
+  config.vm.define "server2" do |server2|
+    server2.vm.box = "ubuntu/xenial64"
+    server2.vm.hostname = "server2"
+    server2.vm.synced_folder ".", "/vagrant", disabled: true
+    server2.vm.network "private_network", ip: "10.10.10.12/24", virtualbox__intnet: "internal", nic_type: "virtio"
+    server2.vm.provision "shell", run: "always", inline: "sudo ip route del default"
+    server2.vm.provision "shell", run: "always", inline: "sudo ip route add default via 10.10.10.254"
+
+    server2.vm.provider "virtualbox" do |vb|
+      vb.name = "server2"
+      vb.gui = false
+      vb.memory = "512"
+    end
+  end
+
+  # a server1 machine (target subnet)
+  config.vm.define "server1" do |server1|
+    server1.vm.box = "ubuntu/xenial64"
+    server1.vm.hostname = "server1"
+    server1.vm.synced_folder ".", "/vagrant", disabled: true
+    server1.vm.network "private_network", ip: "10.10.10.11/24", virtualbox__intnet: "internal", nic_type: "virtio"
+    server1.vm.provision "shell", run: "always", inline: "sudo ip route del default"
+    server1.vm.provision "shell", run: "always", inline: "sudo ip route add default via 10.10.10.254"
+
+   server1.vm.provider "virtualbox" do |vb|
+      vb.name = "server1"
+      vb.gui = false
+      vb.memory = "512"
+    end
+  end
+
+  # windows machine (target subnet)
+  config.vm.define "win10" do |win10|
+    win10.vm.box = "gusztavvargadr/windows-10"
+    win10.vm.hostname = "win10"
+    win10.vm.synced_folder ".", "/vagrant", disabled: true
+    win10.vm.network "private_network", ip: "10.10.10.13/24", virtualbox__intnet: "internal"
+    
+    win10.vm.provision "shell", privileged: "false", path: "scripts/win10_gateway.ps1" #powershell_elevated_interactive: "true", 
+
+    win10.vm.provider "virtualbox" do |vb|
+      vb.name = "win10"
+      vb.gui = false
+      vb.memory = "1024"
+    end
+  end
+
+  # the vuln machine (target subnet)
+  config.vm.define "target" do |target|
+    target.vm.box = "ubuntu/xenial64" #"rapid7/metasploitable3-ub1404"
+    target.vm.hostname = "target"
+    target.vm.synced_folder ".", "/vagrant", disabled: true
+    target.vm.network "private_network", ip: "10.10.10.10/24", virtualbox__intnet: "internal", nic_type: "virtio"
+    target.vm.provision "shell", run: "always", inline: "sudo ip route del default"
+    target.vm.provision "shell", run: "always", inline: "sudo ip route add default via 10.10.10.254"
+
+    target.vm.provider "virtualbox" do |vb|
+      vb.name = "target"
+      vb.gui = false
+      vb.memory = "512"
+    end
+  end
+
+  # the router 0 (between target subnet and router1)
+  config.vm.define "router0"  do |router0|
+    router0.vm.box = "debian/contrib-jessie64" 
+    router0.vm.hostname = "router0"
+    router0.vm.synced_folder "output/", "/tmp/"
+    router0.vm.network "private_network", ip: "10.10.10.254/24", virtualbox__intnet: "internal", nic_type: "virtio"
+    router0.vm.network "private_network", ip: "10.20.10.254/24", virtualbox__intnet: "routers", nic_type: "virtio"
+
+    router0.vm.provision "shell", run: "always", inline: "ip route add 172.16.0.0/24 via 10.20.10.253"
+    router0.vm.provision "shell", inline: "sysctl -w net.ipv4.ip_forward=1"
+    router0.vm.provision "shell", inline: "echo [Router] Configuration done!"
+
+    router0.vm.provider "virtualbox" do |vb|
+      vb.name = "router0"
+      vb.gui = false
+      vb.memory = "512"
+      # https://www.virtualbox.org/wiki/Network_tips
+      vb.customize ['modifyvm', :id, '--nictrace2', 'on']
+      vb.customize ['modifyvm', :id, '--nictracefile2', 'router0_output.pcap']
+    end
+  end
+
+  # the router 1 (between attacker and router0)
+  config.vm.define "router1"  do |router1|
+    router1.vm.box = "debian/jessie64"
+    router1.vm.hostname = "router1" 
+    router1.vm.synced_folder ".", "/vagrant", disabled: true
+    router1.vm.network "private_network", ip: "10.20.10.253/24", virtualbox__intnet: "routers", nic_type: "virtio"
+    router1.vm.network "private_network", ip: "172.16.0.254/24", virtualbox__intnet: "external", nic_type: "virtio"
+
+    router1.vm.provision "shell", run: "always", inline: "ip route add 10.10.10.0/24 via 10.20.10.254"
+    router1.vm.provision "shell", inline: "sysctl -w net.ipv4.ip_forward=1"
+    router1.vm.provision "shell", inline: "echo [Router] Configuration done!"
+
+    router1.vm.provider "virtualbox" do |vb|
+      vb.name = "router1"
+      vb.gui = false
+      vb.memory = "512"
+    end
+  end
+
+  # a zombie machine (for idle scan)
+  config.vm.define "zombie" do |zombie|
+    zombie.vm.box = "ubuntu/xenial64"
+    zombie.vm.hostname = "zombie"
+    zombie.vm.synced_folder ".", "/vagrant", disabled: true
+    zombie.vm.network "private_network", ip: "172.16.0.201/24", virtualbox__intnet: "external", nic_type: "virtio"
+    zombie.vm.provision "shell", run: "always", inline: "ip route del default"
+    zombie.vm.provision "shell", run: "always", inline: "ip route add default via 172.16.0.254"
+    
+    zombie.vm.provider "virtualbox" do |vb|
+      vb.name = "zombie"
+      vb.gui = false
+      vb.memory = "512"
+    end
+  end
+
+  # the attacker machine
+  config.vm.define "attacker" do |attacker|
+    attacker.vm.box = "kalilinux/rolling" 
+    attacker.vm.hostname = "attacker" 
+    attacker.vm.synced_folder ".", "/vagrant", disabled: true
+    attacker.vm.network "private_network", ip: "172.16.0.2/24", virtualbox__intnet: "external"
+    
+    attacker.vm.provision "shell", run: "always", inline: "ip route add 10.10.10.0/24 via 172.16.0.254"
+    attacker.vm.provision "shell", run: "always", path: "scripts/attacker_tcpscan.sh"
+    attacker.vm.provision "shell", run: "always", path: "scripts/nmap_tcpscan.sh"
+
+    config.vm.provider "virtualbox" do |vb|
+      vb.gui = false
+      vb.name = "attacker" 
+      vb.memory = "1024"
+    end
+  end
+
+
+end
