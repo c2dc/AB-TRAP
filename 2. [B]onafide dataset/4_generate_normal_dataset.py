@@ -1,8 +1,9 @@
 import pyshark
 import pandas as pd
+import numpy as np
 
 
-df = pd.DataFrame(pd.np.empty((0, 41)))     # 41 empty columns
+df = pd.DataFrame(np.empty((0, 41)))     # 41 empty columns
 
 def retrieve_attributes(packet):
 	pkt_to_list = []
