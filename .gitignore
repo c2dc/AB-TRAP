@@ -130,4 +130,4 @@ dmypy.json
 
 # Related to the dataset
 *.pcap
-*.gz
+*20*.gz
