@@ -20,7 +20,7 @@ import re
 """
 
 def main():
-    path = "20201110_anomalous_suspicious.csv"
+    path = "20201129_anomalous_suspicious.csv"#"20201110_anomalous_suspicious.csv"
     df = pd.read_csv(path)
 
     anomalous = df.loc[(df[' nbDetectors'] == "anomalous") | (df[' nbDetectors'] == "suspicious")]

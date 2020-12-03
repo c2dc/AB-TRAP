@@ -12,7 +12,7 @@
 
 
 large_number=2000000 # max number of packets
-smaller_number=75000 # number of packets to retrieve
+smaller_number=100000 # number of packets to retrieve
 
 for i in output_*filtered.pcap; do
 	selected_pkt_numbers=$(shuf -i 0-"$large_number" -n "$smaller_number")
