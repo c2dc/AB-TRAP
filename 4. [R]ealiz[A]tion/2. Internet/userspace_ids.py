@@ -38,14 +38,14 @@ while True:
             tcp_flag_cwr = l4.flags.C & 1
             tcp_window_size = l4.window
             tcp_urgent_pointer = l4.urgptr
-            #tcp_options_mss_val = l4.options[0][1] or 0
+            tcp_options_mss_val = next((x[1] for x in l4.options if x[0] == "MSS"), 0)
             
             if l3.src == "192.168.0.1" and l3.dst == "192.168.0.2":
                 packet.accept()
             else:
                 print(tcp_dport, tcp_seq, tcp_len, tcp_hdr_len, tcp_flag_fin, tcp_flag_syn, tcp_flag_rst,
                         tcp_flag_push, tcp_flag_ack, tcp_flag_urg, tcp_flag_cwr, tcp_window_size,
-                        tcp_urgent_pointer)
+                        tcp_urgent_pointer, tcp_options_mss_val)
                 packet.drop()
 
     except fnfqueue.BufferOverflowException:
