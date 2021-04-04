@@ -7,7 +7,7 @@ queue = 1
 
 conn = fnfqueue.Connection()
 preprocess = load(open("Models/preprocessor.pkl", "rb"))
-model = load(open("Models/rf.pkl", "rb"))
+model = load(open("Models/dt.pkl", "rb"))
 
 features = ['ip.id', 'ip.flag.df', 'ip.ttl', 'ip.len', 'ip.dsfield', 'tcp.srcport', 'tcp.seq', 'tcp.len', 'tcp.hdr_len',
             'tcp.flags.fin', 'tcp.flags.syn', 'tcp.flags.rst', 'tcp.flags.push', 'tcp.flags.ack', 'tcp.flags.urg',
@@ -57,9 +57,11 @@ while True:
             X = preprocess.transform(df)
             predict = model.predict(X)
 
-            if not predict:
+            if predict == 0:
+                print(predict)
                 packet.accept()
             else:
+                print(predict)
                 packet.drop()
 
     except fnfqueue.BufferOverflowException:
