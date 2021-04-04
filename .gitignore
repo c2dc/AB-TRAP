@@ -131,3 +131,6 @@ dmypy.json
 # Related to the dataset
 *.pcap
 nohup.out
+
+# The knn model due to its huge size
+knn.pkl
