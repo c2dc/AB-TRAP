@@ -43,6 +43,8 @@ while True:
             run_iperf.terminate()
             run_ids.terminate()
             run_sar.terminate()
+            print(">> Flushing IPTables rules")
+            os.system("iptables -F")
         except:
             print(">> Error to terminate process")
 
