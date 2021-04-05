@@ -7,10 +7,20 @@ queue = 1
 
 conn = fnfqueue.Connection()
 preprocess = load(open("Models/preprocessor.pkl", "rb"))
-model = load(open("Models/xgb.pkl", "rb"))
+model = load(open("Models/lr.pkl", "rb"))
 
-features = ['ip.id', 'ip.flag.df', 'ip.ttl', 'ip.len', 'ip.dsfield', 'tcp.srcport', 'tcp.seq', 'tcp.len', 'tcp.hdr_len',
-            'tcp.flags.fin', 'tcp.flags.syn', 'tcp.flags.rst', 'tcp.flags.push', 'tcp.flags.ack', 'tcp.flags.urg',
+# applicable to XGBoost only
+# https://stackoverflow.com/questions/42338972/valueerror-feature-names-mismatch-in-xgboost-in-the-predict-function
+# https://stackoverflow.com/questions/52577999/feature-names-mismach-in-xgboost-despite-having-same-columns
+try:
+    cols = model.get_booster().feature_names
+    xgboost = 1
+except:
+    #not a xgboost model
+    xgboost = 0
+
+features = ['ip.id', 'ip.flags.df', 'ip.ttl', 'ip.len', 'ip.dsfield', 'tcp.srcport', 'tcp.seq', 'tcp.len', 'tcp.hdr_len',
+            'tcp.flags.fin', 'tcp.flags.syn', 'tcp.flags.reset', 'tcp.flags.push', 'tcp.flags.ack', 'tcp.flags.urg',
             'tcp.flags.cwr', 'tcp.window_size', 'tcp.urgent_pointer', 'tcp.options.mss_val']
 
 try:
@@ -54,7 +64,14 @@ while True:
             pkt.append(next((int.from_bytes(x[1], byteorder=sys.byteorder) for x in l4.options if x[0] == "MSS"), 0)) #tcp_options_mss_val
 
             df = DataFrame([pkt], columns=features)
+
+            if xgboost == 1:
+                df = df[cols]
+
             X = preprocess.transform(df)
+            # the pre-processing transform pandas dataframe to numpy array
+            # to make XGBoost work it is required to get back to dataframe format
+            X = DataFrame(X, columns=features)
             predict = model.predict(X)
 
             if predict == 0:    #the model predict the packet as bonafide
