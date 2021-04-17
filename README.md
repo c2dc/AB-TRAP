@@ -1,5 +1,5 @@
 # AB-TRAP: building invisibility shields to protect network devices
-The AB-TRAP framework enables the use of updated network traffic and considers operational concerns to enable the complete deployment of the solution. It is a five-step framework consisting of (i) the generation of the attack dataset, (ii) the bonafide dataset, (iii) training of machine learning models, (iv) realization of the models, and (v) the performance evaluation of the realized model after deployment.
+The AB-TRAP framework is applicable to the development of Network Intrusion Detection Systems (NIDS), it enables the use of updated network traffic and considers operational concerns to enable the complete deployment of the solution. It is a five-step framework consisting of (i) the generation of the attack dataset, (ii) the bonafide dataset, (iii) training of machine learning models, (iv) realization of the models, and (v) the performance evaluation of the realized model after deployment.
 
 This repository contains all the necessary files to rebuilt this project. 
 
