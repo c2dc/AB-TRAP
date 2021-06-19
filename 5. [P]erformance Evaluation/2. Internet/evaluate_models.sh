@@ -5,6 +5,14 @@
 TARGET="10.42.0.151"	# Raspberry Pi IP
 TIME_TO_EVALUATE="1200" # Time in seconds
 
+echo "> Running baseline (no IDS)"
+echo -n "baseline" >/dev/udp/${TARGET}/11000
+sleep 5
+iperf3 -c ${TARGET} -t ${TIME_TO_EVALUATE}
+sleep 5
+echo -n "STOP" >/dev/udp/${TARGET}/11000
+sleep 10
+
 echo "> Using Decision Tree (DT) model for IDS"
 echo -n "dt" >/dev/udp/${TARGET}/11000
 sleep 5
