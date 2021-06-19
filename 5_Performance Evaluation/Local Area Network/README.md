@@ -2,6 +2,29 @@
 
 ## On target device
 
+### Loading the IDS as LKM
+
+After cloning this repository:
+
+```
+$ cd AB-TRAP/
+
+$ cd 4_RealizAtion/Local_Area_Network/
+
+$ make
+
+$ sudo insmod dt.ko
+
+```
+
+After evaluation to remove LKM:
+
+```
+$ sudo rmmod dt
+```
+
+### Once the LKM is loaded
+
 Uses IPerf3 to run as daemon:
 
 ```
