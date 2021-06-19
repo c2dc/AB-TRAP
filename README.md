@@ -26,7 +26,7 @@ You can setup the environment with Python packet manager (pip):
 $ pip install -r requirements.txt
 ```
 
-The target computer used on this work were both [Raspberry Pi 3](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/), and [Raspberry Pi 4](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/).
+The target computer used on this work is the [Raspberry Pi 4](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/).
 
 ## Contribute to the framework
 To contribute with the framework, you can use the Issues and Pull Requests from Github platform.
