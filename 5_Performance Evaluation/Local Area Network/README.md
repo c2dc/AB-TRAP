@@ -48,7 +48,7 @@ $ iperf3 -c IP_Raspberry -t 1200
 To generate a csv file from sar output, uses [sadf](https://linux.die.net/man/1/sadf) with the following syntax:
 
 ```
-$ sadf --iface=INTERFACE_NAME -d -h -- -r ALL -n ALL -u ALL OUTPUT_FILE > OUTPUT_FILE.csv
+$ sadf --iface=INTERFACE_NAME -d -h -- -r ALL -n ALL -u ALL OUTPUT_FILE | sed 's/;/,/g' > OUTPUT_FILE.csv
 ```
 
 ### Jupyter Notebook

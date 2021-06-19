@@ -9,13 +9,13 @@ features = ['ip.id', 'ip.flags.df', 'ip.ttl', 'ip.len', 'ip.dsfield', 'tcp.srcpo
            'tcp.flags.fin', 'tcp.flags.syn', 'tcp.flags.reset', 'tcp.flags.push', 'tcp.flags.ack', 'tcp.flags.urg',
            'tcp.flags.cwr', 'tcp.window_size', 'tcp.urgent_pointer', 'tcp.options.mss_val']
 
-preprocess = load(open("../../4. [R]ealiz[A]tion/2. Internet/Models/preprocessor.pkl", "rb"))
+preprocess = load(open("../../4_RealizAtion/Internet/Models/preprocessor.pkl", "rb"))
 
 # generating random attributes 
 pkt = [random.random() for i in range(0,len(features))]
 
 for model in models:
-    pickle_model = load(open("../../4. [R]ealiz[A]tion/2. Internet/Models/"+model+".pkl","rb"))
+    pickle_model = load(open("../../4_RealizAtion/Internet/Models/"+model+".pkl","rb"))
 
     df = DataFrame([pkt], columns=features)
 
