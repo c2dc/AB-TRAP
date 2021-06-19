@@ -11,11 +11,11 @@ This repository contains all the necessary files to rebuilt this project.
 - [How to cite](#how-to-cite)
 
 ## Content of this repository
-* `/1. [A]ttack dataset`: contains the instructions and the required code to generate the `attack dataset` considering both LAN and Internet environment;
-* `/2. [B]onafide dataset`: contains the instructions and the required code to generate the `bonafide dataset` based on the [MAWILab dataset](http://www.fukuda-lab.org/mawilab/index.html);
-* `/3. [T]raining models`: contains the Jupyter Notebooks to pre-process the data, and generate the ML models (LAN and Internet cases);
-* `/4. [R]ealiz[A]tion`: contains the source code to obtain the machine learning models to be embedded on the target devices, both in the kernel-space using LKM (LAN case), and user-space with Python language (Internet case);
-* `/5. [P]erformance Evaluation`: contains the instructions to evaluate the Performance of machine learning models in the target device;
+* `/1_Attack dataset`: contains the instructions and the required code to generate the `attack dataset` considering both LAN and Internet environment;
+* `/2_Bonafide dataset`: contains the instructions and the required code to generate the `bonafide dataset` based on the [MAWILab dataset](http://www.fukuda-lab.org/mawilab/index.html);
+* `/3_Training models`: contains the Jupyter Notebooks to pre-process the data, and generate the ML models (LAN and Internet cases);
+* `/4_RealizAtion`: contains the source code to obtain the machine learning models to be embedded on the target devices, both in the kernel-space using LKM (LAN case), and user-space with Python language (Internet case);
+* `/5_Performance Evaluation`: contains the instructions to evaluate the Performance of machine learning models in the target device;
 
 ## Pre-requisites
 For the host computer, it is required Python language with the dependencies listed in `requirements.txt`.
