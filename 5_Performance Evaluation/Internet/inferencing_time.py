@@ -2,6 +2,8 @@ import timeit
 import random
 from joblib import load
 from pandas import DataFrame
+import numpy as np
+import json
 
 models = ['knn', 'rf', 'dt', 'lr', 'xgb', 'mlp', 'nb', 'svm']
 
@@ -11,21 +13,38 @@ features = ['ip.id', 'ip.flags.df', 'ip.ttl', 'ip.len', 'ip.dsfield', 'tcp.srcpo
 
 preprocess = load(open("../../4_RealizAtion/Internet/Models/preprocessor.pkl", "rb"))
 
-# generating random attributes 
-pkt = [random.random() for i in range(0,len(features))]
+models_inference_time = {}
+for model in models:
+    models_inference_time[model] = { 'inference_time' : [] }
+
+# create 20 random packets
+for i in range(0,20):
+    # generating random attributes
+    pkt = [random.random() for i in range(0,len(features))]
+
+    for model in models:
+        print("> Running sample {} from {}".format(i, model))
+
+        pickle_model = load(open("../../4_RealizAtion/Internet/Models/"+model+".pkl","rb"))
+
+        df = DataFrame([pkt], columns=features)
+
+        if model == "xgb":
+            cols = pickle_model.get_booster().feature_names
+            df = df[cols]
+
+        X = preprocess.transform(df)
+        X = DataFrame(X, columns=features)
+
+        inference_time = timeit.timeit('pickle_model.predict(X)', setup="from __main__ import pickle_model, X", number=1000)
+
+        # append a new inference time in the dict
+        models_inference_time[model]['inference_time'].extend(inference_time)
 
 for model in models:
-    pickle_model = load(open("../../4_RealizAtion/Internet/Models/"+model+".pkl","rb"))
+    average = np.mean(models_inference_time[model]['inference_time'])
+    stddev = np.std(models_inference_time[model]['inference_time'])
+    print(">> The average inference time taken by {} is {:.2f} ms ({:.2f})".format(model, average, stddev))
 
-    df = DataFrame([pkt], columns=features)
-
-    if model == "xgb":
-        cols = pickle_model.get_booster().feature_names
-        df = df[cols]
-
-    X = preprocess.transform(df)
-    X = DataFrame(X, columns=features)
-
-    print("The average inference time taken by {} is {:.2f} ms".format(model, timeit.timeit('pickle_model.predict(X)',
-                                                                               setup="from __main__ import pickle_model, X",
-                                                                               number=1000)))
+with open("./results/inferencing_time.json", "wb") as f:
+    json.dump(models_inference_time, f, indent=4)
