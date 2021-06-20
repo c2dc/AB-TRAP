@@ -1,5 +1,5 @@
 import fnfqueue
-from pickle import load
+from joblib import load
 from pandas import DataFrame
 from scapy.all import *
 import sys

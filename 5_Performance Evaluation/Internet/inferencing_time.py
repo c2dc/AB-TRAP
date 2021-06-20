@@ -1,6 +1,6 @@
 import timeit
 import random
-from pickle import load
+from joblib import load
 from pandas import DataFrame
 
 models = ['knn', 'rf', 'dt', 'lr', 'xgb', 'mlp', 'nb', 'svm']
