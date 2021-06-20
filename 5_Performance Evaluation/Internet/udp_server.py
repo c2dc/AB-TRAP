@@ -26,12 +26,16 @@ while True:
         print(">> *** Recognized model ({0}) ***".format(model_name))
         run_iperf = subprocess.Popen(['iperf3', '-s', '-D'])
         print(">> Running IPerf3 as a Daemons (PID={0})".format(str(run_iperf.pid)))
+        
         if model_name != "baseline":
             print(">> Create IPTables rule for NFQueue (Queue=1)")
             os.system("iptables -A INPUT -p tcp -j NFQUEUE --queue-num 1")
             run_ids = subprocess.Popen(['../../venv/bin/python', 'userspace_ids.py', str(model_name)], stdout=subprocess.PIPE)
             print(">> Running IDS with {0} model (PID={1})".format(model_name, str(run_ids.pid)))
-        
+        else:
+            # for baseline evaluation just DROP TCP packets
+            os.system("iptables -A INPUT -i eth0 -p tcp -j DROP")
+
         run_sar = subprocess.Popen(['sar', '-r', 'ALL', '-n', 'ALL', '-u', 'ALL', '-o', str(model_name), str(SAMPLE_RATE), str(RECORDING_TIME)], stdout=subprocess.PIPE)
         print(">> Running sar to capture sysstat data (PID={0})".format(str(run_sar.pid)))
         
