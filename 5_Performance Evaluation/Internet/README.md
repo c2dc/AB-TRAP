@@ -45,4 +45,6 @@ AB-TRAP/5_Performance Evaluation/Internet$ sudo ./evaluate_models.sh
 
 ## Converting the output of sar/sysstat to CSV
 
-`$ sadf --iface=eth0 -d -h -- -r ALL -n ALL -u ALL output_file | sed 's/;/,/g' > output.csv`
+`$ sadf --iface=eth0 -d -h -- -r ALL -n ALL -u ALL output_file > output.csv`
+
+_The output file is separated by ";"_
