@@ -39,12 +39,12 @@ for i in range(0,20):
         inference_time = timeit.timeit('pickle_model.predict(X)', setup="from __main__ import pickle_model, X", number=1000)
 
         # append a new inference time in the dict
-        models_inference_time[model]['inference_time'].extend(inference_time)
+        models_inference_time[model]['inference_time'].append(inference_time)
 
 for model in models:
     average = np.mean(models_inference_time[model]['inference_time'])
     stddev = np.std(models_inference_time[model]['inference_time'])
     print(">> The average inference time taken by {} is {:.2f} ms ({:.2f})".format(model, average, stddev))
 
-with open("./results/inferencing_time.json", "wb") as f:
+with open("./results/inferencing_time.json", "w") as f:
     json.dump(models_inference_time, f, indent=4)
