@@ -32,6 +32,18 @@ The target computer used on this work is the [Raspberry Pi 4](https://www.raspbe
 To contribute with the framework, you can use the Issues and Pull Requests from Github platform.
 
 ## How to cite
-```
 
+```
+@ARTICLE{9501960,  
+  author={De Carvalho Bertoli, Gustavo and Pereira Júnior, Lourenço Alves and Saotome, Osamu and Dos Santos, Aldri L. 
+        and Verri, Filipe Alves Neto and Marcondes, Cesar Augusto Cavalheiro and Barbieri, Sidnei and Rodrigues, Moises S. 
+        and Parente De Oliveira, José M.},  
+  journal={IEEE Access},   
+  title={An End-to-End Framework for Machine Learning-Based Network Intrusion Detection System},   
+  year={2021},  
+  volume={9},  
+  number={},  
+  pages={106790-106805},  
+  doi={10.1109/ACCESS.2021.3101188}
+}
 ```
