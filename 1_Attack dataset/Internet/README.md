@@ -30,6 +30,8 @@ At to run the service on background on each instance:
 $ sudo nohup python3 udp_server.py &
 ```
 
+*By default, the instance firewall rules do not allow external UDP connections. Before starting the service and initializing the experiment, create a firewall rule to accept the remote UDP commands (from the attacker to instances).*
+
 # Generate **attack** dataset
 The ```pcap``` files generate on each cloud instance must be downloaded to the same folder of ```generate_dataset.py``` (or subfolders) then this Python script will automatically process all files, and label it with the correct attack. The final dataset will be generated in the same folder of the script with the name **attack_dataset.csv**.
 
