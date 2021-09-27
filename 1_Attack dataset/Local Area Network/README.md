@@ -9,8 +9,8 @@ This testbed was made and tested on the host configuration
 
 ```
 $ git clone https://github.com/gubertoli/AB-TRAP.git
-$ cd "1. [A]ttack dataset"
-$ cd "1. Local Area Network"
+$ cd "1_Attack dataset"
+$ cd "Local Area Network"
 $ vagrant up
 ```
 
