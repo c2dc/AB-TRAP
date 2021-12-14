@@ -43,6 +43,8 @@ From the filtered splits on the previous step, this step will perform a random s
 $ ./3_random_pcap.sh
 ```
 
+_NOTE: If you are using this framework not in stateless approach (packet granularity), this step of random sampling must not be performed, because the stateful approach (flow features) would be impacted._
+
 # Generate **Bonafide** dataset
 
 Finally, to generate the **bonafide** dataset as a csv file, perform the following:
