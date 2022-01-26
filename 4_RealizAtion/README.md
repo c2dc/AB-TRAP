@@ -25,6 +25,8 @@ Once in the directory use the "make" command to enable makefile.o
 
 `$ make`
 
+`$ sudo insmod dt.ko`
+
 Verify the modules:
 
 `$ lsmod | grep dt`
