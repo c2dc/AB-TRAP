@@ -15,9 +15,9 @@ The sourcecode dt.c will be added as a LKM and will enable the packet filtering 
 ## Load and Compile the Linux Kernel Module
 Create a directory for the files
 
-`$ mkdir dt`
+`$ mkdir AB-TRAP`
 
-`$ cd dt`
+`$ cd AB-TRAP`
 
 Copy the files dt.c and makefile.o for the new directory you just created.
 
