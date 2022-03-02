@@ -1,5 +1,22 @@
 # Reproducing the LAN performance evaluation
 
+## Set the Local Network Connection between the devices
+
+### On target device
+
+```
+$ ifconfig eth1 172.16.25.1 netmask 255.255.255.224
+```
+
+### On Host device
+
+```
+$ ifconfig eth1 172.16.25.2 netmask 255.255.255.224
+
+$ ping 172.16.25.1
+
+```
+
 ## On target device
 
 ### Loading the IDS as LKM
