@@ -47,3 +47,10 @@ To contribute with the framework, you can use the Issues and Pull Requests from 
   doi={10.1109/ACCESS.2021.3101188}
 }
 ```
+
+## NeurIPS 2021 Lightning Talk
+
+Bridging the gap to real-world for network intrusion detection systems with a data-centric approach.  
+_Data-Centric AI Workshop, NeurIPS 2021._
+
+[Video](https://neurips.cc/virtual/2021/38226) | [Related Paper](https://arxiv.org/abs/2110.13655)
